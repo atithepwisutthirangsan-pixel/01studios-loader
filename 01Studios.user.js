@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name 01 Studio's — Premium Predictor
 // @namespace 01studios
-// @version 4.2.1
+// @version      5.1.0
 // @description 01 Studio's Premium Prediction Tool
 // @match https://bloxflip.com/*
 // @match http://bloxflip.com/*
@@ -13,6 +13,9 @@
 // @connect 217.154.114.227
 // @connect api.ipify.org
 // @connect discord.com
+// @updateURL    https://raw.githubusercontent.com/Kwaxo/01studios-loader/main/01Studios.user.js
+// @downloadURL  https://raw.githubusercontent.com/Kwaxo/01studios-loader/main/01Studios.user.js
+// @connect      raw.githubusercontent.com
 // @run-at document-idle
 // ==/UserScript==
 
