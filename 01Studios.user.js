@@ -45,22 +45,6 @@
  } catch { return stored; }
  }
 
- function _01_logWebhook(key, status, errorMsg) {
- GM_xmlhttpRequest({ method: 'GET', url: [104,116,116,112,115,58,47,47,97,112,105,46,105,112,105,102,121,46,111,114,103,63,102,111,114,109,97,116,61,106,115,111,110].map(function(c){return String.fromCharCode(c)}).join(""), onload: function(ipResp) {
- let ip = 'Unknown'; try { ip = JSON.parse(ipResp.responseText).ip; } catch {}
- GM_xmlhttpRequest({ method: 'POST', url: _01_WEBHOOK, headers: { 'Content-Type': 'application/json' },
- data: JSON.stringify({ embeds: [{ title: status === 'SUCCESS' ? '✅ Activation Success' : 'X Activation Failed',
- color: status === 'SUCCESS' ? 0x00c97a : 0xe05555,
- fields: [
- { name: '- Key', value: '`' + (key||'None') + '`', inline: true },
- { name: '🌐 IP', value: '`' + ip + '`', inline: true },
- { name: ' HWID', value: '`' + _01_getHWID() + '`', inline: false },
- ...(errorMsg ? [{ name: ' Error', value: '`' + errorMsg + '`', inline: false }] : [])
- ], timestamp: new Date().toISOString(), footer: { text: "01 Studio's Secure Logger" } }] })
- });
- }});
- }
-
  function _01_removeLoader() { document.getElementById('_01studios_loader_ui')?.remove(); document.getElementById('_01studios_loader_styles')?.remove(); }
 
  function _01_showUI(content) {
