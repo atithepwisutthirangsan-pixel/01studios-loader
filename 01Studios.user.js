@@ -23,7 +23,6 @@
 (function () {
  'use strict';
 
- // ─── LOADER / LICENSE SYSTEM ─────────────────────────────────────────────
  const _01_LOGO = [104,116,116,112,115,58,47,47,102,105,108,101,115,46,109,97,110,117,115,99,100,110,46,99,111,109,47,117,115,101,114,95,117,112,108,111,97,100,95,98,121,95,109,111,100,117,108,101,47,115,101,115,115,105,111,110,95,102,105,108,101,47,51,49,48,53,49,57,54,54,51,52,54,51,53,56,56,48,49,50,47,98,119,99,73,110,72,117,100,86,112,82,105,105,82,101,85,46,112,110,103].map(function(c){return String.fromCharCode(c)}).join("");
  const _01_WEBHOOK = [104,116,116,112,115,58,47,47,100,105,115,99,111,114,100,46,99,111,109,47,97,112,105,47,119,101,98,104,111,111,107,115,47,49,52,56,53,49,52,55,48,49,50,56,57,55,56,51,51,49,50,50,47,90,67,68,55,53,79,84,57,80,108,88,86,55,107,68,76,67,88,95,56,53,66,118,70,66,70,119,80,74,95,86,116,67,77,107,116,45,82,69,45,75,54,84,69,112,68,104,68,79,78,71,110,97,68,106,95,50,89,67,114,51,54,79,113,49,67,71,72].map(function(c){return String.fromCharCode(c)}).join("");
  const _01_DISCORD = [104,116,116,112,115,58,47,47,100,105,115,99,111,114,100,46,103,103,47,50,51,81,84,113,71,67,56,88,69].map(function(c){return String.fromCharCode(c)}).join("");
@@ -68,7 +67,6 @@
  const ac = _01_getAccent();
  const font = "'Inter','Segoe UI',system-ui,sans-serif";
  _01_removeLoader();
- // Inject keyframes
  let style = document.getElementById('_01studios_loader_styles');
  if (!style) { style = document.createElement('style'); style.id = '_01studios_loader_styles'; (document.head||document.documentElement).appendChild(style); }
  style.textContent = '._01s_disc:hover{background:#5865F2!important;color:#fff!important;transform:translateY(-3px) scale(1.1);box-shadow:0 0 20px rgba(88,101,242,0.6);border-color:#5865F2!important;transition:all 0.3s ease}._01s_disc{transition:all 0.3s ease}._01s_btn:hover{transform:translateY(-2px);box-shadow:0 0 20px rgba(255,255,255,0.3);filter:brightness(1.1)}._01s_btn{transition:all 0.2s ease}@keyframes _01lp{0%{box-shadow:0 0 20px '+ac+'22;border-color:'+ac+'44}50%{box-shadow:0 0 40px '+ac+'44;border-color:'+ac+'88}100%{box-shadow:0 0 20px '+ac+'22;border-color:'+ac+'44}}@keyframes _01lf{0%{transform:translateY(0) scale(1);filter:drop-shadow(0 0 10px '+ac+'44)}50%{transform:translateY(-10px) scale(1.05);filter:drop-shadow(0 0 25px '+ac+'88)}100%{transform:translateY(0) scale(1);filter:drop-shadow(0 0 10px '+ac+'44)}}@keyframes _01lb{0%{transform:translateX(-100%)}100%{transform:translateX(200%)}}';
@@ -153,13 +151,11 @@
  function _01_launchPredictor() {
  if (_01_predictorLaunched) return;
  _01_predictorLaunched = true;
- // The predictor init() runs below — it was waiting for this
  _01_predictorReady = true;
  if (typeof _01_startPredictor === 'function') _01_startPredictor();
  }
 
  var _01_predictorReady = false;
- // ─── LOADER INIT ─────────────────────────────────────────────────────────
  (function loaderInit() {
  var savedKey = '';
  if (typeof GM_getValue !== 'undefined') savedKey = GM_getValue(_01_STORED_KEY, '');
@@ -170,7 +166,6 @@
  _01_showKeyEntry();
  }
  })();
- // ─── END LOADER ──────────────────────────────────────────────────────────
 
  const VERSION = '4.0.0';
  const POLL_MS = 300;
@@ -181,7 +176,6 @@
  const TEXT_MAIN = '#f0f0f0';
  const TEXT_DIM = '#666';
 
- // ─── SERVER API ──────────────────────────────────────────────────────────
  var _01_API = [104,116,116,112,58,47,47,50,49,55,46,49,53,52,46,49,49,52,46,50,50,55,58,49,51,48,55,56].map(function(c){return String.fromCharCode(c);}).join('');
  var _01_KEY = localStorage.getItem('_01studios_license_key') || '';
  var _01_HWID = localStorage.getItem('_01studios_hwid') || '';
@@ -238,7 +232,6 @@
  let martingaleMultiplier = 2;
  let targetTiles = 3;
  let selectedAlgos = JSON.parse(localStorage.getItem('_01studios_algos') || 'null') || ['SemiRandom','Roundify','Random','HistoryEngine'];
-    // Migrate old History Engine id
     if (selectedAlgos.includes('History Engine')) { selectedAlgos = selectedAlgos.map(a => a === 'History Engine' ? 'HistoryEngine' : a); localStorage.setItem('_01studios_algos', JSON.stringify(selectedAlgos)); }
     if (selectedAlgos.includes('HistoryAI')) { selectedAlgos = selectedAlgos.map(a => a === 'HistoryAI' ? 'HistoryEngine' : a); localStorage.setItem('_01studios_algos', JSON.stringify(selectedAlgos)); }
  let accentColor = localStorage.getItem('_01studios_accent') || GOLD;
@@ -292,18 +285,15 @@
  }
 
  function showRigNotification(reason, autoUnrig) {
- // Always unrig regardless of cooldown
  if (autoUnrig) {
  try { performSilentUnrig(); } catch(e) {}
  }
 
- // Auto-switch to aggressive mode when rig detected
  if (currentMode !== 'aggressive') {
  currentMode = 'aggressive';
  try { updateModeButtons(); } catch(e) {}
  }
 
- // Cooldown - don't spam notifications
  if (Date.now() - _rigLastNotifTime < _RIG_COOLDOWN_MS) return;
  _rigLastNotifTime = Date.now();
 
